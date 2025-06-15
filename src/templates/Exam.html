@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            margin: 15px;
+            padding: 10px;
+        }
+        table{
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+    <h1>Exam Database</h1>
+    <table class="centered-table">
+        <tr>
+            <th>Exam ID</th>
+            <th>Course ID</th>
+            <th>Max Grade</th>
+            <th>Required</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Course Title</th>
+        </tr>
+        {% for exam in objects %}
+        <tr>
+            <td>{{ exam.ExamID }}</td>
+            <td>{{ exam.CourseID }}</td>
+            <td>{{ exam.MaxGrade }}</td>
+            <td>{{ exam.Required }}</td>
+            <td>{{ exam.Date }}</td>
+            <td>{{ exam.Time }}</td>
+            <td>{{ exam.CourseTitle }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>

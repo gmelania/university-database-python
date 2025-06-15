@@ -1,0 +1,243 @@
+<!-- implement a dashboard for the student acc -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            margin: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, {{ student.Name }} {{ student.Surname }}</h1>
+        
+        <div class="student-info">
+            <h2>Student Information</h2>
+            <p><strong>Name:</strong> {{ student.Name + " " + student.Surname }}</p>
+            <p><strong>Username:</strong> {{ student.Username }}</p>
+            
+            <p><strong>Number of Courses:</strong> {{ student.CoursesNumber }}</p>
+        </div>
+
+        <div class="courses">
+            <h2>Your Courses</h2>
+            {% if courses %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>About</th>
+                        <th>Category</th>
+                        <th>Final Grade</th>
+                        <th>Teacher</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for course in courses %}
+                    <tr>
+                        <td>{{ course.Title }}</td>
+                        <td>{{ course.Description }}</td>
+                        <td>{{ course.Category }}</td>
+                        <td>{{ course.Grade }}</td>
+                        <td>{{ course.TeacherName }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No courses enrolled.</p>
+            {% endif %}
+        </div>
+        
+        <div class="exams">
+            <h2>Scheduled Exams</h2>
+            {% if exams.scheduled %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Course Title</th>
+                        <th>Exam Date</th>
+                        <th>Time</th>
+                        <th>Required</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for exam in exams.scheduled %}
+                    <tr>
+                        <td>{{ exam.Title }}</td>
+                        <td>{{ exam.Date.strftime('%d %B %Y') }}</td>
+                        <td>{{ exam.Time.strftime('%H:%M') }}</td>
+                        <td>{{ exam.Required }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No exams scheduled.</p>
+            {% endif %}
+        </div>
+
+
+        <div class="exams">
+            <h2>Passed Exams</h2>
+            {% if exams.passed %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Course Title</th>
+                        <th>Exam Date</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for exam in exams.passed %}
+                    <tr>
+                        <td>{{ exam.Title }}</td>
+                        <td>{{ exam.Date.strftime('%d %B %Y') }}</td>
+                        <td>{{ exam.Grade }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No passed exams.</p>
+            {% endif %}
+        </div>
+
+        <div class="exams">
+            <h2>Failed Exams</h2>
+            {% if exams.failed %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Course Title</th>
+                        <th>Exam Date</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for exam in exams.failed %}
+                    <tr>
+                        <td>{{ exam.Title }}</td>
+                        <td>{{ exam.Date.strftime('%d %B %Y') }}</td>
+                        <td>{{ exam.Grade }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No failed exams.</p>
+            {% endif %}
+        </div>
+
+        <div class="student_courses_list">
+            <h2>Name-Course-Category-AVG</h2>
+            {% if student_courses_list %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nume</th>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Final Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for object in student_courses_list %}
+                    <tr>
+                        <td>{{ object.StudentName }}</td>
+                        <td>{{ object.CourseTitle }}</td>
+                        <td>{{ object.Category }}</td>
+                        <td>{{ object.Grade }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No data.</p>
+            {% endif %}
+        </div>
+
+        <div class="course_avg_list">
+            <h2>Course-AVG-Nota</h2>
+            {% if course_avg_list %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>CourseTitle</th>
+                        <th>TeacherName</th>
+                        <th>CourseAverageGrade</th>
+                        <th>StudentGrade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for object in course_avg_list %}
+                    <tr>
+                        <td>{{ object.CourseTitle }}</td>
+                        <td>{{ object.TeacherName }}</td>
+                        <td>{{ object.CourseAverageGrade }}</td>
+                        <td>{{ object.StudentGrade }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No data.</p>
+            {% endif %}
+        </div>
+
+        <div class="student_course_avg_list">
+            <h2>Student-Course-AVG</h2>
+            {% if student_course_avg_list %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>StudentName</th>
+                        <th>CourseTitle</th>
+                        <th>CourseAverageGrade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for object in student_course_avg_list %}
+                    <tr>
+                        <td>{{ object.StudentName }}</td>
+                        <td>{{ object.CourseTitle }}</td>
+                        <td>{{ object.AverageGrade }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No data.</p>
+            {% endif %}
+        </div>
+        
+        <div class="average_grade">
+            <h2>Average Grade</h2>
+            {% if average_grade %}
+            <p>Your average grade across all courses is: 
+                {% if average_grade > 50 %}
+                <strong style="color:darkgreen">{{ "%.2f"|format(average_grade) }}</strong>
+                {% else %}
+                <strong style="color:darkred">{{ "%.2f"|format(average_grade) }}</strong>
+                {% endif %}
+            </p>
+            {% else %}
+            <p>No grades available yet.</p>
+            {% endif %}
+        </div>
+        
+    </div>
+    
+</body>
+</html>

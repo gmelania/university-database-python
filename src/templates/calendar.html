@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Calendar</title>
+</head>
+<body>
+    <div class="calendar">
+        <h2>Calendar</h2>
+        <form method="POST" action="{{ url_for('get_calendar_data') }}">
+            <label for="selected_date">Select a date:</label>
+            <input type="date" id="selected_date" name="selected_date" required>
+            <button type="submit">View</button>
+        </form>
+
+        {% if data %}
+            <h3>Results for {{ selected_date }}</h3>
+            <table class="centered-table">
+                <thead>
+                    <tr>
+                        <th>Course Title</th>
+                        <th>Exam Date</th>
+                        <th>Time</th>
+                        <th>Required</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for exam in data %}
+                    <tr>
+                        <td>{{ exam.CourseTitle }}</td>
+                        <td>{{ exam.Date.strftime('%d %B %Y') }}</td>
+                        <td>{{ exam.Time.strftime('%H:%M') }}</td>
+                        <td>{{ exam.Required }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            {% if error %}
+            <p style="color: red;">{{ error }}</p>
+            {% endif %}
+        {% endif %}
+    </div>
+</body>
+</html>

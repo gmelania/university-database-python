@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    /* Stilizare navbar orizontal fix */
+    #navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #333;
+        overflow: hidden;
+        z-index: 1000;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* Stilizare listă */
+    #navbar ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: flex-end; /* Elemente aliniate la dreapta */
+    }
+
+    /* Stilizare link-uri */
+    #navbar ul li {
+        display: inline; /* Elemente afișate pe același rând */
+    }
+
+    #navbar ul li a {
+        display: block;
+        padding: 14px 20px;
+        text-decoration: none;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+
+    /* Schimbă culoarea la hover */
+    #navbar ul li a:hover {
+        background-color: #575757;
+        color: white;
+    }
+
+    /* Pentru utilizator activ */
+    #navbar ul li a.active {
+        background-color: #04AA6D;
+        color: white;
+    }
+
+</style>
+</head>
+<body>
+    <div id="navbar">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/db/Course">Courses</a></li>
+            <li><a href="/calendar">Calendar</a></li>
+            <li>
+                {% if user %}
+                    {% if user.role == 'student' %}
+                        <a href="/dashboard/student/{user.StudentID}">{{ user.Name }} {{ user.Surname }}</a>
+                    {% elif user.role == 'teacher' %}
+                        <a href="/dashboard/teacher/{user.TeacherID}">{{ user.Name }} {{ user.Surname }}</a>
+                    {% elif user.role == 'admin' %}
+                        <a href="/admin_dashboard">{{ user.first_name }} {{ user.last_name }}</a>
+                    {% endif %}
+                    <!-- <a href="/logout">Logout</a> -->
+                {% else %}
+                    <a href="/login">Login</a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

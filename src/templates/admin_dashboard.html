@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+
+<!------------------------------ERASE DATA-------------------------------->
+    
+    <h2>Erase Data</h2>
+    <form id="erase-data-form" method="post" action="/admin_erase_data">
+        <label for="erase-table">Table:</label>
+        <input type="text" id="erase-table" name="table" required> <br>
+        
+        <div id="erase-student-fields" style="display: none;">
+            <label for="erase-student-id">Account ID:</label>
+            <input type="text" id="erase-student-id" name="StudentID"> <br>
+            <label for="erase-name">Name:</label>
+            <input type="text" id="erase-name" name="Name"> <br>
+            <label for="erase-surname">Surname:</label>
+            <input type="text" id="erase-surname" name="Surname"> <br>
+        </div>
+        
+        <div id="erase-course-fields" style="display: none;">
+            <label for="erase-course-id">Course ID:</label>
+            <input type="text" id="erase-course-id" name="CourseID"> <br>
+        </div>
+        
+        <div id="erase-record-id" style="display: none;">
+            <!--  -->
+            <label for="erase-record-id-label">Record ID:</label>
+            <!--  -->
+            <input type="text" id="erase-record-id" name="RecordID"> <br>
+        </div>
+
+        <button type="submit">Erase Data</button>
+    </form>
+
+    <!-- Error message element -->
+    <div id="error-message" style="color: red; display: none;"></div>
+
+    <script>
+
+        // JavaScript for Erase Data form
+        document.getElementById('erase-table').addEventListener('input', function() {
+            var table = this.value.toLowerCase();
+            var param_tables = ['student', 'teacher', 'course'];
+            var no_param_tables = ['category', 'exam', 'admissionexam'];
+            var showRecordId = !(param_tables.includes(table)) && (no_param_tables.includes(table)); // the table is in no_param_tables
+
+            document.getElementById('erase-student-fields').style.display = (table === 'student' || table === 'teacher') ? 'block' : 'none';
+            document.getElementById('erase-course-fields').style.display = (table === 'course') ? 'block' : 'none';
+            document.getElementById('erase-record-id').style.display = showRecordId ? 'block' : 'none';
+            document.getElementById('erase-record-id-label').style.display = showRecordId ? 'block' : 'none';
+            document.getElementById('erase-record-id-label').textContent = table.charAt(0).toUpperCase() + table.slice(1) + ' ID:';
+        });
+        
+        document.getElementById('erase-data-form').addEventListener('submit', function(event) {
+            
+            var confirmation = confirm('Are you sure you want to erase this data?');
+            if (!confirmation) {
+                event.preventDefault();
+            }
+        });
+    </script>
+        
+<!------------------------------MODIFY DATA-------------------------------->
+
+        <h2>Modify Data</h2>
+        <form id="modify-data-form" method="post" action="/admin_modify_data">
+            <label for="modify-table">Table:</label>
+            <input type="text" id="modify-table" name="table" required> <br>
+            
+                <div id="modify-student-fields" style="display: none;">
+                    <label for="modify-student-id">Student ID:</label>
+                    <input type="text" id="modify-student-id" name="StudentID"> <br>
+                    <label for="modify-name">Name:</label>
+                    <input type="text" id="modify-name" name="Name"> <br>
+                    <label for="modify-surname">Surname:</label>
+                    <input type="text" id="modify-surname" name="Surname"> <br>
+                </div>
+            
+                <div id="modify-teacher-fields" style="display: none;">
+                    <label for="modify-teacher-id">Teacher ID:</label>
+                    <input type="text" id="modify-teacher-id" name="TeacherID"> <br>
+                    <label for="modify-name">Name:</label>
+                    <input type="text" id="modify-name" name="Name"> <br>
+                    <label for="modify-surname">Surname:</label>
+                    <input type="text" id="modify-surname" name="Surname"> <br>
+                </div>
+                
+                <div id="modify-course-fields" style="display: none;">
+                    <label for="modify-course-id">Course ID:</label>
+                    <input type="text" id="modify-course-id" name="CourseID"> <br>
+                    <label for="modify-title">Title:</label>
+                    <input type="text" id="modify-title" name="Title"> <br>
+                </div>
+                
+                <div id="modify-category-fields" style="display: none;">
+                    <label for="modify-category-id">Category ID:</label>
+                    <input type="text" id="modify-category-id" name="CategoryID"> <br>
+                    <label for="modify-title">Title:</label>
+                    <input type="text" id="modify-title" name="Title"> <br>
+                </div>
+            
+                <label id="modify-record-id-label" for="modify-record-id">Record ID:</label>
+                <input type="text" id="modify-record-id" name="record_id" required> <br>
+
+                <div id="column-fields" style="display: none;">
+                    <label for="column">Column:</label>
+                    <select id="column" name="column" required>
+                        <!-- Options will be populated dynamically -->
+                    </select> <br>
+                    
+                    <label for="new_value">New Value:</label>
+                    <input type="text" id="new_value" name="new_value" required> <br>
+                </div>
+            
+            <button type="submit">Modify Data</button>
+        </form>
+
+        <script>
+            // JavaScript for Modify Data form
+            document.getElementById('modify-table').addEventListener('input', function() {
+            var table = this.value.toLowerCase();
+            
+            // Hide all specific fields
+            document.getElementById('modify-student-fields').style.display = 'none';
+            document.getElementById('modify-teacher-fields').style.display = 'none';
+            document.getElementById('modify-course-fields').style.display = 'none';
+            document.getElementById('modify-category-fields').style.display = 'none';
+            
+            // Show specific fields based on the selected table
+            if (table === 'student') {
+                document.getElementById('modify-student-fields').style.display = 'block';
+            } else if (table === 'teacher') {
+                document.getElementById('modify-teacher-fields').style.display = 'block';
+            } else if (table === 'course') {
+                document.getElementById('modify-course-fields').style.display = 'block';
+            } else if (table === 'category') {
+                document.getElementById('modify-category-fields').style.display = 'block';
+            }
+            
+            // Update the label for Record ID
+            document.getElementById('modify-record-id-label').textContent = table.charAt(0).toUpperCase() + table.slice(1) + ' ID:';
+            
+            // Fetch columns for the selected table
+            fetch(`/get_columns?table=${table}`)
+                .then(response => response.json())
+                .then(columns => {
+                    var columnSelect = document.getElementById('column');
+                    var columnFields = document.getElementById('column-fields');
+                    if (columns.length > 0) {
+                        columnFields.style.display = 'block';
+                        columnSelect.innerHTML = '';
+                        columns.forEach(column => {
+                            var option = document.createElement('option');
+                            option.value = column;
+                            option.textContent = column;
+                            columnSelect.appendChild(option);
+                        });
+                    } else {
+                        columnFields.style.display = 'none';
+                    }
+                });
+            });
+
+            document.getElementById('modify-data-form').addEventListener('submit', function(event) {
+            var confirmation = confirm('Are you sure you want to modify this data?');
+            if (!confirmation) {
+                event.preventDefault();
+            }
+        });
+        </script>
+</body>
+</html>

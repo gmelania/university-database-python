@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            margin: 15px;
+            padding: 10px;
+        }
+        table{
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+    <h1>Available courses</h1>
+    <table class="centered-table">
+        <tr>
+            <th>Course</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Course Capacity</th>
+            <th>Teacher</th>
+            <th>Email Address</th>
+        </tr>
+        {% for course in courses %}
+        <tr>
+            <td>{{ course.CourseTitle }}</td>
+            <td>{{ course.Category }}</td>
+            <td>{{ course.Description }}</td>
+            <td>{{ course.CourseCapacity }}</td>
+            <td>{{ course.TeacherName }}</td>
+            <td>{{ course.TeacherUsername }}</td>
+        </tr>
+        {% endfor %}
+    </table><br>
+
+    <h4>We encourage you to begin your IT journey today :)</h4>
+
+</body>
+</html>
+

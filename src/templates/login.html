@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .error {
+            color: rgba(0, 0, 0, 0.838);
+        }
+    </style>
+</head>
+<body>
+    {% if not error %}
+    <h1>Login</h1>
+    <form method="post" action="/login">
+        <label for="role">Select Role:</label>
+        <select id="role" name="role" required> 
+            <option value="student">Student</option>
+            <option value="professor">Professor</option>
+            <option value="admin">Administrator</option>
+        </select> 
+
+        <label for="username"><br>Username:</label>
+        <input type="text" id="username" name="username" required> <br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required> <br>
+
+        <button type="submit">Login</button>
+    </form>
+    {% endif %}
+
+    {% if error %}
+    <h1 style="color: crimson;">Error</h1>
+    <p class="error">{{ error }}</p>
+    <p>You will be redirected to the login page in <span id="countdown">10</span> seconds.</p>
+    <a href="/login" class="button">Login or Register Again</a>
+    <script>
+        var countdownElement = document.getElementById('countdown');
+        var countdown = 10;
+        setInterval(function() {
+            countdown--;
+            countdownElement.textContent = countdown;
+            if (countdown <= 0) {
+                window.location.href = "/login";
+            }
+        }, 1000); // Update every second
+    </script>
+    {% endif %}
+</body>
+</html>

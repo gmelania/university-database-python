@@ -1,0 +1,180 @@
+<!-- implement a dashboard for the professor acc -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            margin: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, {{ teacher.Name }} {{ teacher.Surname }}</h1>
+        
+        <div class="teacher-info">
+            <h2>Teacher Information</h2>
+            <p><strong>Name:</strong> {{ teacher.Name + " " + teacher.Surname }}</p>
+            <p><strong>Username:</strong> {{ teacher.Username }}</p>
+            
+            <p><strong>Number of Courses:</strong> {{ teacher.CoursesNumber }}</p>
+        </div>
+
+        <div class="courses">
+            <h2>Owned Courses</h2>
+            {% if courses %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Course ID</th>
+                        <th>Course Name</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Course Capacity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for course in courses %}
+                    <tr>
+                        <td>{{ course.CourseID }}</td>
+                        <td>{{ course.Title }}</td>
+                        <td>{{ course.Category }}</td>
+                        <td>{{ course.Description }}</td>
+                        <td>{{ course.CourseCapacity }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No courses owned.</p>
+            {% endif %}
+        </div>
+
+        <div class="students">
+            <h2>Students</h2>
+            {% if students %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Course</th>
+                        <th>Student</th>
+                        <th>Grade</th>
+                        <th>Email Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td>{{ student.Course }}</td>
+                        <td>{{ student.Student }}</td>
+                        <td>{{ student.Grade }}</td>
+                        <td>{{ student.Username }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                {% else %}
+            <p>No students enrolled yet.</p>
+            {% endif %}
+            </table>
+        </div>
+
+        <div class="exam-stats">
+            <h2>Exam Statistics</h2>
+            {% if exams %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Exam ID</th>
+                        <th>Course Title</th>
+                        <th>Exam Date</th>
+                        <th>Total Students</th>
+                        <th>Passed Students</th>
+                        <th>Pass Rate (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for exam in exams %}
+                    <tr>
+                        <td>{{ exam.ExamID }}</td>
+                        <td>{{ exam.Course }}</td>
+                        <td>{{ exam.Date.strftime('%d %B %Y') }}</td>
+                        <td>{{ exam.TotalStudents }}</td>
+                        <td>{{ exam.PassedStudents }}</td>
+                        <td>
+                            {% if exam.PassRate >= 50 %}
+                            <strong style="color:darkgreen">{{ "%.2f"|format(exam.PassRate) }}</strong>
+                            {% else %}
+                            <strong style="color:darkred">{{ "%.2f"|format(exam.PassRate) }}</strong>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No exam statistics available.</p>
+            {% endif %}
+        </div>    
+        
+        <div class="count">
+            <h2>Count</h2>
+            {% if count %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Courses</th>
+                        <th>Students</th>
+                        <th>Teachers</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for obj in count %}
+                    <tr>
+                        <td>{{ obj.CoursesCount }}</td>
+                        <td>{{ obj.StudentsCount }}</td>
+                        <td>{{ obj.TeachersCount }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                {% else %}
+            <p>No data.</p>
+            {% endif %}
+            </table>
+        </div>
+
+        <div class="avg_grade">
+            <h2>AVG Courses</h2>
+            {% if avg_grade %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>TeacherName</th>
+                        <th>AverageGrade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for obj in avg_grade %}
+                    <tr>
+                        <td>{{ obj.TeacherName }}</td>
+                        <td>{{ obj.AverageGrade }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                {% else %}
+            <p>No data.</p>
+            {% endif %}
+            </table>
+        </div>
+        
+    </div>
+</body>
+</html>

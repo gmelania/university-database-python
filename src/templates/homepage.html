@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+    {% block content %}
+    <div class="container">
+        <h1>Welcome to our Learning Platform!</h1>
+            <p>
+                We are thrilled to have you here! <br>
+                We believe in empowering individuals through knowledge and skills. <br>
+                Our platform offers a wide range of courses designed to help you achieve your personal and professional goals. <br>
+                Whether you are looking to learn something new, improve your existing skills, or advance your career, we have something for everyone. <br>
+                Join our community of learners and start your journey towards success today!
+            </p><hr>
+        <a href="/signup" class="button">Register</a>
+        <p>Already have an account?</p> <a href="/login" class="button">Login</a>
+    </div>
+
+    <h3 style="color:blueviolet">See our available courses <a href='/db/Course'>here</a>.</h3>
+    
+    <footer>
+        <p>&copy; 2024 Learning Platform. All rights reserved.</p>
+    </footer>
+    {% endblock %}
+    </body>
+</html>
