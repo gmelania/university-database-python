@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            margin: 15px;
+            padding: 10px;
+        }
+        table{
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Database</h1>
+    <table class="centered-table">
+        <tr>
+            <th>Student ID</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>CoursesNumber</th>
+            <th>Name</th>
+            <th>Surname</th>
+        </tr>
+        {% for student in objects %}
+        <tr>
+            <td>{{ student.StudentID }}</td>
+            <td>{{ student.Username }}</td>
+            <td><input type="password" value="********" readonly style="border:none"></td>
+            <td>{{ student.CoursesNumber }}</td>
+            <td>{{ student.Name }}</td>
+            <td>{{ student.Surname }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>
